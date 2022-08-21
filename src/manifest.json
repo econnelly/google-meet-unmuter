@@ -1,12 +1,9 @@
 {
-  "name": "Google Meet API",
-  "version": "1.0",
   "manifest_version": 3,
   "action": {},
   "background": {
     "service_worker": "background.js"
   },
-  "description": "Creates an API for Google Meet",
   "host_permissions": [
     "https://*/*"
   ],

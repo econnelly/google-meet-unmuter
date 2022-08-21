@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const CopyFilePlugin = require("copy-webpack-plugin")
+const CopyWebpackPlugin = require("copy-webpack-plugin")
+const package = require("./package.json");
 
 module.exports = {
     mode: "development",
@@ -40,10 +41,20 @@ module.exports = {
             chunks: ['popup']
 
         }),
-        new CopyFilePlugin({
-            patterns: [
-                "src/manifest.json",
-            ]
+        new CopyWebpackPlugin({
+            patterns: [{
+                from: "src/manifest.json",
+                to: path.resolve(__dirname, 'dist'),
+                transform: (content, _) => {
+                    return Buffer.from(JSON.stringify({
+                        name: package.name,
+                        description: package.description,
+                        version: package.version,
+                        author: package.author,
+                        ...JSON.parse(content.toString())
+                    }))
+                }
+            }]
         })
     ]
 };
