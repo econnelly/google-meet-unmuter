@@ -1,7 +1,6 @@
 const path = require('path');
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin")
-const package = require("./package.json");
+const package_data = require("./package.json");
 
 module.exports = {
     mode: "development",
@@ -9,8 +8,6 @@ module.exports = {
     entry: {
         background: './src/background.ts',
         inject: './src/inject.ts',
-        popup: './src/popup.ts',
-        styles: './src/popup.css'
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -21,7 +18,6 @@ module.exports = {
     },
     module: {
         rules: [
-            // all files with a `.ts` or `.tsx` extension will be handled by `ts-loader`
             {
                 test: /\.ts$/,
                 loader: "ts-loader",
@@ -35,22 +31,16 @@ module.exports = {
         ]
     },
     plugins: [
-        new HtmlWebpackPlugin({
-            template: 'src/popup.html',
-            filename: `${path.resolve(__dirname, 'dist')}/popup.html`,
-            chunks: ['popup']
-
-        }),
         new CopyWebpackPlugin({
             patterns: [{
                 from: "src/manifest.json",
                 to: path.resolve(__dirname, 'dist'),
                 transform: (content, _) => {
                     return Buffer.from(JSON.stringify({
-                        name: package.name,
-                        description: package.description,
-                        version: package.version,
-                        author: package.author,
+                        name: package_data.name,
+                        description: package_data.description,
+                        version: package_data.version,
+                        author: package_data.author,
                         ...JSON.parse(content.toString())
                     }))
                 }
