@@ -7,7 +7,7 @@ This Chrome extension was created to minimize the awkward pause between the time
 1) Clone the repository
 2) Install npm modules
 3) Build the project
-4) Install the unpacked chrome extension
+4) Install the unpacked chrome extension from the `/dist` directory
 
 ```bash
 git clone https://github.com/econnelly/google-meet-unmuter.git
